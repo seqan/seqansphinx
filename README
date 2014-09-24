@@ -1,0 +1,97 @@
+.. -*- restructuredtext -*-
+
+======================
+README for seqansphinx
+======================
+
+:author: Manuel Holtgrewe <manuel.holtgrewe@fu-berlin.de>
+
+.. module:: seqansphinx.seqanlinks
+   :synopsis: Create links to SeqAn documentation.
+
+.. module:: seqansphinx.includefrags
+   :synopsis: Allow inclusion of code snippets.
+
+
+Licensing
+---------
+This code is released under an MIT License.
+See the LICENSE file for full text.
+
+Installing from sphinx-contrib checkout
+---------------------------------------
+
+Clone the sphinx-contrib repository::
+
+  $ hg clone https://bitbucket.org/birkenfeld/sphinx-contrib/
+
+Change into the traclinks directory::
+
+  $ cd sphinx-contrib/traclinks
+
+Install the module::
+
+  $ python setup.py install
+
+
+Enabling the extension in Sphinx_
+---------------------------------
+
+To enable the use of this extension in your Sphinx project, you will need
+to add it to the list of extensions in the ``conf.py`` file in your Sphinx
+project.
+
+For example
+
+::
+
+    extensions = ['seqansphinx.doxlinks',
+                  'seqansphinx.includefrags']
+
+
+Configuration
+-------------
+
+You will need to set the following config value in your Sphinx project's
+``conf.py`` file::
+
+``doxlinks_base_url`` <string>:
+    The base url of the built API documentation.
+``includefrags_base_url`` <string>:
+    The path to where to include fragments from.
+
+Usage
+-----
+
+Fragment Inclusion
+^^^^^^^^^^^^^^^^^^
+
+You can use this just like the ``.. include::`` directive.
+
+::
+
+    .. includefrags: path/to/file.cpp
+       :fragment: frag-name
+
+Fragments can be separated as follows:
+
+::
+
+    int main() {
+
+        // FRAGMENT(frag-name)
+        int x = 2 * 3;
+
+        // FRAGMENT(next-fragment)
+        return 0;
+    }
+
+Dox Links
+^^^^^^^^^
+
+In your restructuredText markup, you can create links to the dox
+entities using markup of the following format::
+
+    :dox:`EntityName optional caption`
+
+where ``EntityName`` is a valid dox entity.
