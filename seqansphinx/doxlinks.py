@@ -42,9 +42,14 @@ def makeSeqAnLink(name, rawtext, text, lineno, inliner,
         prb = inliner.problematic(rawtext, rawtext, msg)
         return [prb], [msg]
     text = tokens[0]
-    if len(tokens) > 1:
+    if len(tokens) == 1 and env.config.shorten_nested_names:
+        if '::' in text:
+            text = text.split('::')[-1]
+        elif '#' in text:
+            text = text.split('#')[-1]
+    else:
         text = ' '.join(tokens[1:])
-    ref = dox_url + '?p=' + urllib.quote(target, safe='')
+    ref = dox_url + '?p=' + urllib.quote(target, safe='#')
     node = nodes.reference(rawtext, utils.unescape(text), refuri=ref, **options)
     return [node],[]
 
@@ -97,6 +102,9 @@ def setup(app):
     # Path to "search.data.js" file with dox index.
     app.add_config_value('doxlinks_dox_json',
                          'seqan/dox/html/js/search.data.js',
+                         'env')
+    # Automatically shorten nested (interface/member) names.
+    app.add_config_value('shorten_nested_names', True,
                          'env')
 
     # Register makeSeqAnLink for :dox: role.

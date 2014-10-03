@@ -10,7 +10,7 @@ requires = ['Sphinx>=0.6']
 
 setup(
     name='seqansphinx',
-    version='0.2.0',
+    version='0.2.1',
     url='http://github.com/seqan/seqan-sphinx',
     download_url='http://pypi.python.org/pypi/seqansphinx',
     license='MIT',
