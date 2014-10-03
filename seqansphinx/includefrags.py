@@ -1,11 +1,5 @@
-"""
-Sphinx/docutils extension to include fragments of files::
-
-    .. includefrags: path/to/file.cpp
-       :fragment: frag-name
-
-Based on the sphinx IncludeDirective.
-"""
+'''
+'''
 
 import codecs
 import os.path
@@ -94,17 +88,17 @@ class IncludeFrags(Directive):
         fragment = self.options.get('fragment')
         if fragment is not None:
             active = False
-            needle = '// FRAGMENT(%s)' % fragment
+            needle = 'FRAGMENT(%s)' % fragment
             result = []
             for line in lines:
-                if '// FRAGMENT(' in line and needle not in line:
+                if 'FRAGMENT(' in line and needle not in line:
                     active = False
                 elif needle in line:
                     active = True
                     continue
                 if active:
                     result.append(line)
-            while result and result[-1].strip():
+            while result and not result[-1].strip():
                 result.pop()
             lines = result                    
 
