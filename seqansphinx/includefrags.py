@@ -100,7 +100,7 @@ class IncludeFrags(Directive):
                     result.append(line)
             while result and not result[-1].strip():
                 result.pop()
-            lines = result                    
+            lines = result
 
         linespec = self.options.get('lines')
         if linespec is not None:
@@ -156,6 +156,8 @@ class IncludeFrags(Directive):
             retnode['language'] = self.options['language']
         elif filename.endswith('.cpp'):
             retnode['language'] = 'cpp'
+        elif filename.endswith('.stdout') or filename.endswith('.stderr'):
+            retnode['language'] = 'console'
         if 'linenos' in self.options:
             retnode['linenos'] = True
         if hl_lines is not None:
