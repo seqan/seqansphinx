@@ -87,15 +87,15 @@ class IncludeFrags(Directive):
 
         fragment = self.options.get('fragment')
         if fragment is not None:
+            key = None
             active = False
-            needle = 'FRAGMENT(%s)' % fragment
-            result = []
             for line in lines:
-                if 'FRAGMENT(' in line and needle not in line:
-                    active = False
-                elif needle in line:
-                    active = True
-                    continue
+                line = line.rstrip()  # Strip line ending and trailing whitespace.
+                if line.strip().startswith('//![') and line.strip().endswith(']'):
+                    key = line.strip()[4:-1].strip()
+                    if key == fragment:
+                        active = not active
+                        continue
                 if active:
                     result.append(line)
             while result and not result[-1].strip():
