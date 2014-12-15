@@ -87,10 +87,12 @@ class IncludeFrags(Directive):
 
         fragment = self.options.get('fragment')
         if fragment is not None:
+            result = []
             key = None
             active = False
             for line in lines:
                 line = line.rstrip()  # Strip line ending and trailing whitespace.
+                line += '\n' # add back line ending
                 if line.strip().startswith('//![') and line.strip().endswith(']'):
                     key = line.strip()[4:-1].strip()
                     if key == fragment:
