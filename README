@@ -79,11 +79,13 @@ Fragments can be separated as follows:
 
     int main() {
 
-        // FRAGMENT(frag-name)
+        //![frag-name]
         int x = 2 * 3;
+        //![frag-name]
 
-        // FRAGMENT(next-fragment)
+        //![next-fragment]
         return 0;
+        //![next-fragment]
     }
 
 Dox Links
