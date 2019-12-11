@@ -6,16 +6,16 @@ long_desc = '''
 This package contains the seqansphinx Sphinx extension.
 '''
 
-requires = ['Sphinx>=0.6']
+requires = ['Sphinx>=1.6']
 
 setup(
     name='seqansphinx',
-    version='0.3.0',
-    url='http://github.com/seqan/seqan-sphinx',
+    version='0.4.0',
+    url='http://github.com/seqan/seqansphinx',
     download_url='http://pypi.python.org/pypi/seqansphinx',
     license='MIT',
     author='Manuel Holtgrewe',
-    author_email='manuel.holtgrewe@fu-berlin.de',
+    author_email='seqan-dev@lists.fu-berlin.de',
     description='Sphinx extension for SeqAn Sphinx document',
     long_description=long_desc,
     zip_safe=False,
