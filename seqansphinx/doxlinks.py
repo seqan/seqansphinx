@@ -13,15 +13,15 @@ creates a link to the documentation entry of the Index class.
 adapted from the traclinks extension.
 """
 
-from __future__ import print_function
-
 import json
 import os.path
 import sys
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from docutils import nodes, utils
+from sphinx.util import logging
 
+LOGGER = logging.getLogger(__name__)
 
 # Keys expected in JSON.
 KEYS = ('title', 'name', 'text', 'akas', 'subentries', 'loc', 'langEntity')
@@ -49,7 +49,7 @@ def makeSeqAnLink(name, rawtext, text, lineno, inliner,
             text = text.split('#')[-1]
     else:
         text = ' '.join(tokens[1:])
-    ref = dox_url + '?p=' + urllib.quote(target, safe='#')
+    ref = dox_url + '?p=' + urllib.parse.quote(target, safe='#')
     node = nodes.reference(rawtext, utils.unescape(text), refuri=ref, **options)
     return [node],[]
 
@@ -61,21 +61,21 @@ def loadDoxJson(app):
     env = app.builder.env
     # Skip if already loaded the known dox names.
     if hasattr(env, 'known_dox_names'):
-        app.info('Already loaded known_dox_names')
+        LOGGER.info('Already loaded known_dox_names')
         return
     # If the doxlinks_json_path is not given then register the known names as
     # "None".
     json_path = env.config.doxlinks_dox_json
     if not json_path:
-        app.warn('No doxlinks_dox_json given.')
+        LOGGER.warning('No doxlinks_dox_json given.')
         env.known_dox_names = None
         return
     # Build set of known names from dox.
     known_dox_names = set()
     if os.path.isfile(json_path):
-        app.info('Reading %s' % json_path)
+        LOGGER.info('Reading %s' % json_path)
         with open(json_path, 'rb') as f:
-            fcontents = f.read()
+            fcontents = f.read().decode()
             fcontents = fcontents[fcontents.find('['):]
             for key in KEYS:
                 fcontents = fcontents.replace('{%s:' % key, '{\'%s\':' % key)
@@ -88,7 +88,7 @@ def loadDoxJson(app):
                 for subentry in record['subentries']:
                     known_dox_names.add(subentry['name'])
     else:
-        app.warn('Could not read json file %s' % json_path)
+        LOGGER.warning('Could not read json file %s' % json_path)
     env.known_dox_names = known_dox_names
 
 
